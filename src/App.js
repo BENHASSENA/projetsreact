@@ -1,38 +1,64 @@
-import logo from './logo.svg';
 import React, { useState, useEffect } from 'react'
 import './App.scss';
 import Tours from './components/Tours';
-
 
 
 const url = 'https://course-api.com/react-tours-project'
 
 function App() {
 
-  const [tours, setTours] = useState([]);
+  // declaration use state pour l'array tours
+  const [tours, setTours] = useState([])
 
+  // declaration  de la fonction fecth tous qui permet de récupérer les données depuis l'api
   const fetchTours = async () => {
     try {
       const response = await fetch(url)
       const tours = await response.json()
       setTours(tours);
-      console.log(tours)
-      
     } catch (error) {
-      console.log(error);
-    }
-
+      console.log(error)
+    }   
   }
+  useEffect(() =>{
+    fetchTours()
+  },[])
 
-  return (
-    <div className="App">
+  // affichage de l'appli
+  if(tours.length === 0) {
+    return (
+      <div className="App">
       <div className="container">
-        <h1>Hello</h1>
-        <button onClick={() => fetchTours()}> fetch it !</button>
-       <Tours tours={tours}/>
+      <h2>There are no tours left, </h2>
+      <button onClick={()=>fetchTours()}>Refresh</button>
+      </div>
+      </div>
+    )
+  }else{
+    return (
+      <div className="App">
+      <div className="container">
+      <Tours tours={tours}/>
       </div>
     </div>
-  );
+    )
+  }
 }
-
 export default App;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
